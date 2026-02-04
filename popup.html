@@ -2,27 +2,50 @@
 <html>
 <head>
   <title>Think Again 😏</title>
+  <style>
+    body {
+      text-align: center;
+      margin-top: 100px;
+      font-family: Arial;
+      background: #ffe4e1;
+    }
+    #yesBtn {
+      font-size: 15px;
+      padding: 10px 20px;
+    }
+    #noBtn {
+      position: absolute;
+      padding: 10px 20px;
+    }
+  </style>
 </head>
-<body style="text-align:center; margin-top:100px; font-family:Arial;">
+<body>
 
-  <h2>Are you sure? 😜</h2>
+<h2>Are you really sure? 😜</h2>
 
-  <button id="yesBtn" onclick="goYes()">Yes</button>
-  <button onclick="growYes()">No</button>
+<button id="yesBtn" onclick="goYes()">Yes</button>
+<button id="noBtn" onclick="moveNo()">No</button>
 
-  <script>
-    let size = 15;
+<script>
+  let size = 15;
 
-    function growYes() {
-      size += 10;
-      document.getElementById("yesBtn").style.fontSize = size + "px";
-      alert("Think again ❤️");
-    }
+  function moveNo() {
+    size += 10;
+    let yes = document.getElementById("yesBtn");
+    yes.style.fontSize = size + "px";
 
-    function goYes() {
-      window.location.href = "yes.html";
-    }
-  </script>
+    let no = document.getElementById("noBtn");
+    no.style.left = Math.random() * 80 + "vw";
+    no.style.top = Math.random() * 80 + "vh";
+
+    alert("Think again ❤️");
+  }
+
+  function goYes() {
+    window.location.href = "yes.html";
+  }
+</script>
 
 </body>
 </html>
+
