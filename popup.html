@@ -2,8 +2,9 @@
 <html>
 <head>
   <title>Think Again 😏</title>
-  <!-- Fancy romantic font -->
+  <!-- Fancy fonts for main and modal -->
   <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
   <style>
     body {
       text-align: center;
@@ -59,7 +60,6 @@
       0% { bottom: 0; opacity: 1; }
       100% { bottom: 100%; opacity: 0; }
     }
-    /* Custom modal style */
     #modal {
       display: none;
       position: fixed;
@@ -78,12 +78,29 @@
       font-size: 1.5em;
       box-shadow: 0 5px 30px #ffb6c1;
       text-align: center;
-      font-family: 'Pacifico', cursive;
+      /* Modal message uses fun handwritten font */
+      font-family: 'Indie Flower', cursive;
       animation: pop 0.4s;
     }
     @keyframes pop {
       from {transform: scale(0.7);}
       to {transform: scale(1);}
+    }
+    #musicPrompt {
+      position: fixed;
+      bottom: 10px;
+      left: 0; right: 0;
+      width: 100%;
+      text-align: center;
+      color: #ea1a6f;
+      font-size: 1.1em;
+      background: rgba(255,255,255,0.7);
+      border-radius: 25px;
+      padding: 12px;
+      z-index: 100;
+      font-family: 'Pacifico', cursive;
+      display: none;
+      transition: opacity 0.6s;
     }
   </style>
 </head>
@@ -92,14 +109,14 @@
 <div class="emoji">💘</div>
 <h2>Are you really sure? 😜</h2>
 
-<button id="yesBtn" onclick="goYes()">Yes! 💖</button>
-<button id="noBtn" onclick="moveNo()" style="left:60vw;top:50vh;">No 😅</button>
+<button id="yesBtn" onclick="userInteracted(); goYes();">Yes! 💖</button>
+<button id="noBtn" onclick="userInteracted(); moveNo();" style="left:60vw;top:50vh;">No 😅</button>
 
-<audio autoplay loop>
+<div id="musicPrompt">Tap anywhere to enable music 🎶</div>
+<audio id="bgMusic" loop>
   <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
 </audio>
 
-<!-- Modal popup -->
 <div id="modal">
   <div id="modalContent"></div>
 </div>
@@ -111,38 +128,51 @@
   let yesBtn = document.getElementById('yesBtn');
   let modal = document.getElementById('modal');
   let modalContent = document.getElementById('modalContent');
+  let bgMusic = document.getElementById('bgMusic');
+  let musicPrompt = document.getElementById('musicPrompt');
 
   // Fun messages for "No" attempts
   const messages = [
-    "Think again ❤️",
-    "Are you really really sure?",
-    "Please say Yes 😊",
-    "You deserve love!",
+    "Valo kore vabe dekh ❤️",
+    "Matha thanda kore vab",
+    "akbr haa bole de 😊",
+    "deserve love!",
     "No isn't allowed 😜",
-    "Cupid is aiming at you 💘",
-    "Love is in the air!",
-    "You're too cute to say No! 😍",
+    "Love is in the air! 💘",
+    "Amr sonna ta na tue",
+    "Amr jannu ta 😍",
+    "No button cholbe e na"
     "There's no escape from love! 💞",
     "Valentine says: Yes is the only option 🌹"
   ];
 
-  // Make No button dodge cursor
+  // Try to play music when user interacts
+  function userInteracted() {
+    bgMusic.play().then(()=>{
+      musicPrompt.style.display='none';
+    }).catch(()=>{
+      // If not allowed, show prompt
+      musicPrompt.style.display='block';
+      setTimeout(()=>musicPrompt.style.opacity='0', 3000);
+    });
+  }
+
+  // Also catch general page tap/click for music
+  document.body.addEventListener('click',userInteracted);
+
   noBtn.addEventListener('mouseover', moveNo);
   noBtn.addEventListener('click', moveNo);
 
   function moveNo() {
     tries++;
-    // Make Yes button grow, glow, and jump a bit
     size += 4;
     yesBtn.style.fontSize = size + "px";
     yesBtn.style.transform = "scale(1.1) rotate(-3deg)";
     setTimeout(()=>yesBtn.style.transform="",200);
 
-    // Move No button randomly
     noBtn.style.left = Math.random() * 80 + "vw";
     noBtn.style.top = Math.random() * 75 + "vh";
 
-    // Show modal with fun messages
     modalContent.innerHTML = messages[tries % messages.length] + "<br>💝";
     modal.style.display = "flex";
     setTimeout(()=>modal.style.display="none", 1600);
@@ -152,7 +182,6 @@
     window.location.href = "yes.html";
   }
 
-  // Floating hearts: random types & colors
   setInterval(() => {
     let heart = document.createElement("div");
     const heartTypes = ["❤️","💕","💖","💘","💝","💞"];
@@ -165,7 +194,6 @@
     setTimeout(() => heart.remove(), 5100);
   }, 180);
 
-  // Dismiss modal on click (just in case)
   modal.addEventListener('click', ()=>{
     modal.style.display='none';
   });
