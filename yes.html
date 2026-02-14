@@ -2,21 +2,102 @@
 <html>
 <head>
   <title>She Said Yes 💖</title>
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
   <style>
     body {
       text-align: center;
       margin-top: 100px;
-      font-family: Arial;
-      background: #ffb6c1;
+      font-family: 'Pacifico', cursive;
+      background: linear-gradient(120deg, #ffb6c1 80%, #ffd6e0 100%);
+      overflow: hidden;
+    }
+    .emoji {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    h1 {
+      font-size: 2.5em;
+      color: #d12260;
+      margin-bottom: 14px;
+    }
+    h2 {
+      font-size: 1.6em;
+      color: #c51f5c;
+      margin-bottom: 10px;
+    }
+    h3 {
+      font-family: 'Indie Flower', cursive;
+      font-size: 1.5em;
+      color: #ea1a6f;
+      margin-bottom: 22px;
+    }
+    .heart {
+      position: absolute;
+      font-size: 28px;
+      animation: float 5s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+    @keyframes float {
+      0% { bottom: 0; opacity: 1; }
+      100% { bottom: 100%; opacity: 0; }
+    }
+    #musicPrompt {
+      position: fixed;
+      bottom: 10px;
+      left: 0; right: 0;
+      width: 100%;
+      text-align: center;
+      color: #ea1a6f;
+      font-size: 1.1em;
+      background: rgba(255,255,255,0.7);
+      border-radius: 25px;
+      padding: 12px;
+      z-index: 100;
+      font-family: 'Pacifico', cursive;
+      display: none;
+      transition: opacity 0.4s;
     }
   </style>
 </head>
 <body>
-
+<div class="emoji">💞</div>
 <h1>Yes! 😍</h1>
-<h2>I knew it, Aditi 💖</h2>
-<h3>You made my day ❤️</h3>
+<h2>Ami jantam, kothay jabi amay 6ara 💖</h2>
+<h3>LOVE YOU JANNU ❤️</h3>
+
+<div id="musicPrompt">Tap anywhere to enable music 🎶</div>
+<audio id="bgMusic" loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<script>
+  let bgMusic = document.getElementById('bgMusic');
+  let musicPrompt = document.getElementById('musicPrompt');
+
+  function userInteracted() {
+    bgMusic.play().then(()=>{
+      musicPrompt.style.display='none';
+    }).catch(()=>{
+      musicPrompt.style.display='block';
+      setTimeout(()=>musicPrompt.style.opacity='0', 3000);
+    });
+  }
+  document.body.addEventListener('click',userInteracted);
+
+  setInterval(() => {
+    let heart = document.createElement("div");
+    const heartTypes = ["❤️","💕","💖","💘","💝","💞"];
+    heart.innerHTML = heartTypes[Math.floor(Math.random()*heartTypes.length)];
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.bottom = "0px";
+    heart.style.color = ["#ff1493","#c51f5c","#d12260","#a83279","#ff69b4","#ea1a6f"][Math.floor(Math.random()*6)];
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5100);
+  }, 180);
+</script>
 
 </body>
 </html>
-
