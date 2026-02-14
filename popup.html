@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>Think Again 😏</title>
-  <!-- Fancy fonts for main and modal -->
+  <!-- Romantic & handwritten fonts -->
   <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Indie+Flower&display=swap" rel="stylesheet">
   <style>
@@ -78,7 +78,6 @@
       font-size: 1.5em;
       box-shadow: 0 5px 30px #ffb6c1;
       text-align: center;
-      /* Modal message uses fun handwritten font */
       font-family: 'Indie Flower', cursive;
       animation: pop 0.4s;
     }
@@ -100,7 +99,7 @@
       z-index: 100;
       font-family: 'Pacifico', cursive;
       display: none;
-      transition: opacity 0.6s;
+      transition: opacity 0.4s;
     }
   </style>
 </head>
@@ -133,14 +132,13 @@
 
   // Fun messages for "No" attempts
   const messages = [
-    "Valo kore vabe dekh ❤️",
+   "Valo kore vabe dekh ❤️",
     "Matha thanda kore vab",
     "akbr haa bole de 😊",
-    "deserve love!",
-    "No isn't allowed 😜",
-    "Love is in the air! 💘",
     "Amr sonna ta na tue",
     "Amr jannu ta 😍",
+    "No isn't allowed 😜",
+    "Love is in the air! 💘",
     "No button cholbe e na"
     "There's no escape from love! 💞",
     "Valentine says: Yes is the only option 🌹"
@@ -151,7 +149,6 @@
     bgMusic.play().then(()=>{
       musicPrompt.style.display='none';
     }).catch(()=>{
-      // If not allowed, show prompt
       musicPrompt.style.display='block';
       setTimeout(()=>musicPrompt.style.opacity='0', 3000);
     });
