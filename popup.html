@@ -2,69 +2,173 @@
 <html>
 <head>
   <title>Think Again 😏</title>
+  <!-- Fancy romantic font -->
+  <link href="https://fonts.googleapis.com/css?family=Pacifico&display=swap" rel="stylesheet">
   <style>
     body {
       text-align: center;
       margin-top: 100px;
-      font-family: Arial;
-      background: pink;
+      font-family: 'Pacifico', cursive;
+      background: linear-gradient(120deg, #ffb6c1 80%, #ffd6e0 100%);
       overflow: hidden;
     }
+    .emoji {
+      font-size: 3em;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 2.2em;
+      color: #d12260;
+      margin-bottom: 60px;
+    }
     #yesBtn {
-      font-size: 15px;
-      padding: 10px 20px;
+      font-size: 20px;
+      padding: 17px 33px;
+      color: #fff;
+      background: #ff1493;
+      border: none;
+      border-radius: 25px;
+      box-shadow: 0 0 22px #ff1493;
+      animation: glow 1s infinite alternate;
+      cursor: pointer;
+      transition: transform 0.2s, font-size 0.2s;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 20px #ff1493; }
+      to { box-shadow: 0 0 45px #ff69b4; }
     }
     #noBtn {
       position: absolute;
-      padding: 10px 20px;
+      padding: 14px 26px;
+      color: #ff1493;
+      background: #fff;
+      border: 2px solid #ff1493;
+      border-radius: 25px;
+      font-size: 18px;
+      cursor: pointer;
+      transition: left 0.2s, top 0.2s;
     }
     .heart {
       position: absolute;
-      color: red;
-      font-size: 20px;
+      font-size: 28px;
       animation: float 5s linear infinite;
+      pointer-events: none;
+      z-index: 1;
     }
     @keyframes float {
       0% { bottom: 0; opacity: 1; }
       100% { bottom: 100%; opacity: 0; }
     }
+    /* Custom modal style */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 2;
+      left: 0; top: 0;
+      width: 100%; height: 100%;
+      background: rgba(255,182,193,0.7);
+      justify-content: center;
+      align-items: center;
+    }
+    #modalContent {
+      background: #fff;
+      color: #d12260;
+      padding: 35px 50px;
+      border-radius: 30px;
+      font-size: 1.5em;
+      box-shadow: 0 5px 30px #ffb6c1;
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+      animation: pop 0.4s;
+    }
+    @keyframes pop {
+      from {transform: scale(0.7);}
+      to {transform: scale(1);}
+    }
   </style>
 </head>
 <body>
 
+<div class="emoji">💘</div>
 <h2>Are you really sure? 😜</h2>
 
-<button id="yesBtn" onclick="goYes()">Yes</button>
-<button id="noBtn" onclick="moveNo()">No</button>
+<button id="yesBtn" onclick="goYes()">Yes! 💖</button>
+<button id="noBtn" onclick="moveNo()" style="left:60vw;top:50vh;">No 😅</button>
+
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<!-- Modal popup -->
+<div id="modal">
+  <div id="modalContent"></div>
+</div>
 
 <script>
-  let size = 15;
+  let size = 20;
+  let tries = 0;
+  let noBtn = document.getElementById('noBtn');
+  let yesBtn = document.getElementById('yesBtn');
+  let modal = document.getElementById('modal');
+  let modalContent = document.getElementById('modalContent');
+
+  // Fun messages for "No" attempts
+  const messages = [
+    "Think again ❤️",
+    "Are you really really sure?",
+    "Please say Yes 😊",
+    "You deserve love!",
+    "No isn't allowed 😜",
+    "Cupid is aiming at you 💘",
+    "Love is in the air!",
+    "You're too cute to say No! 😍",
+    "There's no escape from love! 💞",
+    "Valentine says: Yes is the only option 🌹"
+  ];
+
+  // Make No button dodge cursor
+  noBtn.addEventListener('mouseover', moveNo);
+  noBtn.addEventListener('click', moveNo);
 
   function moveNo() {
-    size += 10;
-    let yes = document.getElementById("yesBtn");
-    yes.style.fontSize = size + "px";
+    tries++;
+    // Make Yes button grow, glow, and jump a bit
+    size += 4;
+    yesBtn.style.fontSize = size + "px";
+    yesBtn.style.transform = "scale(1.1) rotate(-3deg)";
+    setTimeout(()=>yesBtn.style.transform="",200);
 
-    let no = document.getElementById("noBtn");
-    no.style.left = Math.random() * 80 + "vw";
-    no.style.top = Math.random() * 80 + "vh";
+    // Move No button randomly
+    noBtn.style.left = Math.random() * 80 + "vw";
+    noBtn.style.top = Math.random() * 75 + "vh";
 
-    alert("Think again ❤️");
+    // Show modal with fun messages
+    modalContent.innerHTML = messages[tries % messages.length] + "<br>💝";
+    modal.style.display = "flex";
+    setTimeout(()=>modal.style.display="none", 1600);
   }
 
   function goYes() {
     window.location.href = "yes.html";
   }
 
-  // Floating hearts like index.html
+  // Floating hearts: random types & colors
   setInterval(() => {
     let heart = document.createElement("div");
-    heart.innerHTML = "❤️";
+    const heartTypes = ["❤️","💕","💖","💘","💝","💞"];
+    heart.innerHTML = heartTypes[Math.floor(Math.random()*heartTypes.length)];
     heart.className = "heart";
     heart.style.left = Math.random() * 100 + "vw";
+    heart.style.bottom = "0px";
+    heart.style.color = ["#ff1493","#c51f5c","#d12260","#a83279","#ff69b4","#ea1a6f"][Math.floor(Math.random()*6)];
     document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 5000);
-  }, 300);
+    setTimeout(() => heart.remove(), 5100);
+  }, 180);
+
+  // Dismiss modal on click (just in case)
+  modal.addEventListener('click', ()=>{
+    modal.style.display='none';
+  });
 </script>
 
 </body>
